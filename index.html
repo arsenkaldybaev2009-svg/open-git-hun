@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>V12 — интерактивная модель двигателя</title>
+  <meta name="description" content="Работающий двигатель V12 в 3D: все поршни, клапаны и валы движутся, любую деталь можно рассмотреть вблизи, а время — замедлить.">
+  <meta name="theme-color" content="#07090d">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0d13'/%3E%3Cpath d='M12 14h12l8 26 8-26h12L38 52H26z' fill='%234da3ff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <canvas id="scene" aria-label="3D-модель двигателя V12"></canvas>
+
+  <header class="brand">
+    <h1>V12</h1>
+    <p>Интерактивная модель двигателя · 6,2 л</p>
+  </header>
+
+  <aside class="card cylmap" id="cylmap" aria-label="Такты цилиндров">
+    <h2>Такты цилиндров</h2>
+    <div class="cm-grid" id="cmGrid"></div>
+    <ul class="legend" id="strokeLegend"></ul>
+    <p class="cm-order" id="cmOrder"></p>
+  </aside>
+
+  <div class="topbar">
+    <button class="btn" id="btnHome" type="button">⌂ Весь двигатель</button>
+  </div>
+
+  <aside class="card info" id="info" role="region" aria-label="Информация о выбранной детали"></aside>
+
+  <section class="card dock" id="dock" aria-label="Управление временем и двигателем">
+    <div class="dock-row">
+      <div class="transport">
+        <button class="btn icon" id="btnPlay" type="button" aria-label="Пауза"></button>
+        <button class="btn icon" id="btnBack" type="button" aria-label="Шаг назад на 10 градусов" title="Шаг назад (←)">⏴ 10°</button>
+        <button class="btn icon" id="btnFwd" type="button" aria-label="Шаг вперёд на 10 градусов" title="Шаг вперёд (→)">10° ⏵</button>
+        <button class="btn icon more" id="btnMore" type="button" aria-expanded="false" aria-controls="dockMore" aria-label="Обороты, угол цикла, корпус">⚙</button>
+      </div>
+      <div class="ctl grow">
+        <label for="speed">Время <b id="speedVal"></b></label>
+        <input type="range" id="speed" min="0" max="1000" step="1">
+        <div class="presets" id="presets">
+          <button type="button" data-s="1">×1</button>
+          <button type="button" data-s="0.1">×0,1</button>
+          <button type="button" data-s="0.02">×0,02</button>
+          <button type="button" data-s="0.005">×0,005</button>
+          <button type="button" data-s="0.001">×0,001</button>
+        </div>
+      </div>
+    </div>
+    <div class="dock-row more-row" id="dockMore">
+      <div class="ctl">
+        <label for="rpm">Обороты <b id="rpmVal"></b></label>
+        <input type="range" id="rpm" min="800" max="9000" step="100" value="3000">
+      </div>
+      <div class="ctl">
+        <label for="angle">Угол цикла <b id="angleVal"></b></label>
+        <input type="range" id="angle" min="0" max="720" step="1" value="0">
+      </div>
+      <div class="ctl">
+        <label for="glass">Корпус <b id="glassVal"></b></label>
+        <input type="range" id="glass" min="0" max="100" step="1" value="30">
+      </div>
+    </div>
+    <p class="speed-note" id="speedNote"></p>
+  </section>
+
+  <div class="tip" id="tip" hidden></div>
+  <p class="hint" id="hint" data-mouse="Потяните — вращать · колесо — масштаб · правая кнопка — сдвиг · нажмите на деталь" data-touch="Потяните — вращать · щипок — масштаб · нажмите на деталь">Потяните — вращать · колесо — масштаб · правая кнопка — сдвиг · нажмите на деталь</p>
+  <div class="fallback" id="fallback" hidden></div>
+  <noscript><div class="fallback">Для работы модели нужен включённый JavaScript.</div></noscript>
+
+  <script src="js/vendor/three.min.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/info.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
